@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
     <title>Kev Video Games</title>
+    <livewire:styles />
 </head>
 <body class="bg-gray-900 text-white">
     <header class="border-b border-gray-800">
@@ -56,5 +57,6 @@
             Powered By <a href="#" class="underline hover:text-gray-400">IGDB API</a>
         </div>
     </footer>
+    <livewire:scripts />
 </body>
 </html>
