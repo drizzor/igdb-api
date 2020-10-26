@@ -25,7 +25,7 @@ class RecentlyReviewed extends Component
         ])
         ->withToken(env('IGDB_TOKEN'))
         ->withBody("
-            fields name, cover.url, first_release_date, platforms.abbreviation, rating, total_rating_count, summary; 
+            fields name, cover.url, first_release_date, platforms.abbreviation, rating, total_rating_count, summary, slug; 
             where platforms = (48,49,130,6)
             & (first_release_date >= {$before}
             & first_release_date < {$current}

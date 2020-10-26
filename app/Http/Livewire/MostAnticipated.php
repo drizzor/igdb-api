@@ -25,7 +25,7 @@ class MostAnticipated extends Component
         ])
         ->withToken(env('IGDB_TOKEN'))
         ->withBody("
-            fields name, cover.url, first_release_date, hypes; 
+            fields name, cover.url, first_release_date, hypes, slug; 
             where platforms = (48,49,130,6)
             & (first_release_date > {$current}
             & first_release_date < {$afterFourMonths}
