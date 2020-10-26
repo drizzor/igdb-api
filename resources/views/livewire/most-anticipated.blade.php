@@ -9,7 +9,22 @@
                 <div class="text-gray-400 text-sm mt-1"> {{ date('d M, Y', $game['first_release_date']) }}</div>
             </div>
         </div> 
-    @empty 
-        <div class="spinner mt-8"></div>
+    @empty  
+        @foreach (range(1,4) as $game)
+            <div class="game flex">
+                <div class="bg-gray-800 w-16 h-20 flex-none"></div>
+        
+                <div class="ml-4">
+                    <div class="text-transparent bg-gray-700 rounded block">
+                        Title goes here today
+                    </div>
+        
+                    <div class="text-transparent bg-gray-700 rounded inline-block mt-2">
+                        Sept 14, 2020
+                    </div>
+                </div>
+            </div> 
+        @endforeach
+    
     @endforelse                                       
 </div>

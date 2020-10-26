@@ -22,7 +22,11 @@ module.exports = {
       // },
     }),
 
-    extend: {}
+    extend: {
+      spacing: {
+        '44': '11rem',
+      }
+    }
   },
   variants: {},
   plugins: [

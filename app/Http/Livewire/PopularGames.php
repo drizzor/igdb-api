@@ -29,9 +29,7 @@ class PopularGames extends Component
             ->withBody("
                 fields name, cover.url, first_release_date, platforms.abbreviation, rating, total_rating_count; 
                 where platforms = (48,49,130,6)
-                & (first_release_date >= {$before}
-                & first_release_date < {$after}
-                )
+                & (first_release_date >= {$before} & first_release_date < {$after})
                 & cover != null
                 & rating != null;
                 sort total_rating_count desc;
