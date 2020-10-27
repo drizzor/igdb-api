@@ -109,9 +109,9 @@ class GamesController extends Controller
             ,'text/plain')
         ->post('https://api.igdb.com/v4/games')->json();
 
-        // dump($game);
-
         abort_if(!$game, 404);
+
+        // dump($game);
 
         return view('show', [
             'game' => $this->formatGameForView($game[0]),

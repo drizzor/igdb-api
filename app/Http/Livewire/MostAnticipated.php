@@ -44,6 +44,8 @@ class MostAnticipated extends Component
             ,'text/plain')
         ->post('https://api.igdb.com/v4/games')->json();
 
+        // dump($mostAnticipatedUnformatted);
+
         $this->mostAnticipated = $this->formatForView($mostAnticipatedUnformatted);
     }
 

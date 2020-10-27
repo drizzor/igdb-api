@@ -44,7 +44,7 @@ class PopularGames extends Component
             ->post('https://api.igdb.com/v4/games')->json();
         });
 
-        // dump($this->formatForView($popularGamesUnformatted));
+        // dump($popularGamesUnformatted);
 
         $this->popularGames = $this->formatForView($popularGamesUnformatted);
     }
