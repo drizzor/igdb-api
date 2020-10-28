@@ -45,8 +45,18 @@ class PopularGames extends Component
         });
 
         // dump($this->formatForView($popularGamesUnformatted));
-
+        
         $this->popularGames = $this->formatForView($popularGamesUnformatted);
+        
+        // Event qui permet d'executer le script pour la progress bar
+        collect($this->popularGames)->filter(function ($game) {
+            return $game['rating'];
+        })->each(function ($game) {
+            $this->emit('gameWithRatingAdded', [
+                'slug' => $game['slug'],
+                'rating' => $game['rating'] / 100,
+            ]);
+        });
     }
 
     /**
@@ -57,7 +67,7 @@ class PopularGames extends Component
         return collect($games)->map(function ($game) {
             return collect($game)->merge([
                 'coverImageUrl' => Str::replaceFirst('thumb', 'cover_big', $game['cover']['url']),
-                'rating' => isset($game['rating']) ? round($game['rating']) . '%' : "N/A",
+                'rating' => isset($game['rating']) ? round($game['rating']) : "0",
                 'platforms' => collect($game['platforms'])->pluck('abbreviation')->implode(', '),
             ]);
         });

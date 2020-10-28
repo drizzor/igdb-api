@@ -44,9 +44,17 @@ class RecentlyReviewed extends Component
             ,'text/plain')
         ->post('https://api.igdb.com/v4/games')->json();
 
-        // dd($this->formatForView($recentlyReviewedUnformatted));
-
         $this->recentlyReviewed = $this->formatForView($recentlyReviewedUnformatted);
+        
+        // Event pour pouvoir executer la progressbar du composant async de livewire
+        collect($this->recentlyReviewed)->filter(function ($game) {
+            return $game['rating'];
+        })->each(function ($game) {
+            $this->emit('reviewGameWithRatingAdded', [
+                'slug' => 'review_' . $game['slug'],
+                'rating' => $game['rating'] / 100,
+            ]);
+        });
     }
 
     /**
@@ -57,7 +65,7 @@ class RecentlyReviewed extends Component
         return collect($games)->map(function($game){
             return collect($game)->merge([
                 'coverImageUrl' => Str::replaceFirst('thumb', 'cover_big', $game['cover']['url']),
-                'rating' => isset($game['rating']) ? round($game['rating']) . '%' : "N/A",
+                'rating' => isset($game['rating']) ? round($game['rating']) : "0",
                 'platforms' => collect($game['platforms'])->pluck('abbreviation')->implode(', '),
                 'summary' => mb_strlen($game['summary']) > 250 ? mb_strimwidth($game['summary'],0, 250) . "(...)" : $game['summary'],
             ]);
