@@ -174,8 +174,8 @@ class GamesController extends Controller
             'criticRating' => isset($game['aggregated_rating']) 
                 ? round($game['aggregated_rating']) 
                 : '0',
-            'trailer' => isset($game['trailer'])
-                ? "https://youtube.com/watch/" . $game['videos'][0]['video_id']
+            'trailer' => isset($game['videos'])
+                ? "https://youtube.com/embed/" . $game['videos'][0]['video_id']
                 : "",
             'screenshots' => collect($game['screenshots'])->map(function ($screenshot) {
                 return [

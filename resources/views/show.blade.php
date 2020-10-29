@@ -83,16 +83,45 @@
                     {{ $game['summary'] }}
                 </p>
                 
-                <div class="mt-12">
-                    {{-- <button class="flex items-center bg-blue-500 text-white font-semibold px-4 py-4 hover:bg-blue-600 rounded transition ease-in-out duration-150">
+                <div x-data="{ isTrailerModalVisible: false }" class="mt-12">
+                    <button 
+                        class="flex items-center bg-blue-500 text-white font-semibold px-4 py-4 hover:bg-blue-600 rounded transition ease-in-out duration-150"
+                        @click="isTrailerModalVisible = true"
+                    >
                         <i class="far fa-play-circle"></i>
-                        <span class="ml-2">Play Trailer</span> 
-                    </button> --}}
+                        <span class="ml-2">Play Trailer</span>
+                    </button>
 
-                    <a href="{{ $game['trailer'] }}" target="_blank" class="inline-flex items-center bg-blue-500 text-white font-semibold px-4 py-4 hover:bg-blue-600 rounded transition ease-in-out duration-150">
-                        <i class="far fa-play-circle"></i>
-                        <span class="ml-2">Play Trailer</span> 
-                    </a>
+                    {{-- Modal --}}
+                    <template x-if="isTrailerModalVisible">
+                        <div class="fixed z-10 bg-black bg-opacity-50 top-0 left-0 w-full h-full flex items-center shadow-lg overflow-y-auto">
+                            <div class="container mx-auto lg:px-32 rounded-lg overflow-y-auto">
+                                <div class="bg-gray-900 rounded" @click.away="isTrailerModalVisible = false">
+                                    <div class="flex justify-end pr-4 pt-2">
+                                        <button 
+                                            class="text-3xl leading-none hover:text-gray-300" 
+                                            @click="isTrailerModalVisible = false"
+                                            @keydown.escape.window="isTrailerModalVisible = false"
+                                        >
+                                            &times;
+                                        </button>
+                                    </div>
+                        
+                                    <div class="modal-body px-8 py-8">
+                                        <div class="responsive-container overflow-hidden relative" style="padding-top: 56.25%">
+                                            <iframe width="560" height="315" 
+                                                class="responsive-iframe absolute top-0 left-0 w-full h-full" 
+                                                src="{{ $game['trailer'] }}" 
+                                                frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+                                            </iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- end modal -->
+                    </template>
+                    
+
                 </div>
             </div>
         </div> <!-- end game details -->
