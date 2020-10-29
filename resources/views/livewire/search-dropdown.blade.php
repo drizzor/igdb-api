@@ -1,9 +1,20 @@
-<div class="relative">
+<div class="relative" x-data="{ isVisible: true }" @click.away="isVisible = false">
     <input 
         wire:model.debounce.300ms="search"
+        @focus="isVisible = true"
+        @keydown.escape.window = "isVisible = false"
+        @keydown="isVisible = true"
+        @keydown.shift.tab="isVisible = false"
+        @keydown.window="
+            if(event.keyCode === 106) {
+                event.preventDefault();
+                $refs.search.focus();
+            }
+        "
+        x-ref="search"
         type="text" 
         class="bg-gray-800 text-sm rounded-full px-3 py-1 w-64 focus:outline-none focus:shadow-outline pl-8" 
-        placeholder="Search..."> 
+        placeholder="Search (Press '*' to focus)"> 
 
     {{-- {{ dump($search) }} --}}
     
@@ -17,13 +28,16 @@
 
     {{-- Result Dropdown--}}
     @if (strlen($search) >= 2)
-        <div class="absolute z-50 bg-gray-800 text-sm rounded w-64 mt-1 shadow-xl">
+        <div class="absolute z-50 bg-gray-800 text-sm rounded w-64 mt-1 shadow-xl" x-show.transition.opacity.duration.1000="isVisible">
             @if (count($searchResults) > 0)
                 <ul>
                     @foreach ($searchResults as $game)
                         @if(isset($game['slug']) && isset($game['name']))
                             <li class="border-b border-gray-700">
-                                <a href="{{ route('games.show', $game['slug']) }}" class="hover:bg-gray-700 px-3 py-3 flex items-center transition ease-in-out duration-150">
+                                <a href="{{ route('games.show', $game['slug']) }}" 
+                                    class="hover:bg-gray-700 px-3 py-3 flex items-center transition ease-in-out duration-150"
+                                    @if ($loop->last) @keydown.tab="isVisible=false" @endif> 
+                                    
                                     @if (isset($game['cover']))
                                         <img src="{{ Str::replaceFirst('thumb', 'cover_small', $game['cover']['url']) }}" alt="cover" class="w-10">
                                     @else 
