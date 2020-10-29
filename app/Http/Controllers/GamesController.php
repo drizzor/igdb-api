@@ -162,7 +162,9 @@ class GamesController extends Controller
                 ? Str::replaceFirst('thumb', 'cover_big', $game['cover']['url'])
                 : 'https://via.placeholder.com/264x352',
             'genres' => collect($game['genres'])->pluck('name')->implode(', '),
-            'involved_companies' => collect($game['involved_companies'])->pluck('company')->pluck('name')->implode(', '),
+            'involved_companies' => isset($game['involved_companies'])
+                ? collect($game['involved_companies'])->pluck('company')->pluck('name')->implode(', ')
+                : "",
             'platforms' => isset($game['platforms']) 
                 ? collect($game['platforms'])->pluck('abbreviation')->implode(', ') 
                 : null,
@@ -172,7 +174,9 @@ class GamesController extends Controller
             'criticRating' => isset($game['aggregated_rating']) 
                 ? round($game['aggregated_rating']) 
                 : '0',
-            'trailer' => "https://youtube.com/watch/" . $game['videos'][0]['video_id'],
+            'trailer' => isset($game['trailer'])
+                ? "https://youtube.com/watch/" . $game['videos'][0]['video_id']
+                : "",
             'screenshots' => collect($game['screenshots'])->map(function ($screenshot) {
                 return [
                     'big' => Str::replaceFirst('thumb', 'screenshot_big', $screenshot['url']),
