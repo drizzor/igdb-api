@@ -92,7 +92,7 @@
                         <span class="ml-2">Play Trailer</span>
                     </button>
 
-                    {{-- Modal --}}
+                    {{-- Modal video trailer --}}
                     <template x-if="isTrailerModalVisible">
                         <div class="fixed z-10 bg-black bg-opacity-50 top-0 left-0 w-full h-full flex items-center shadow-lg overflow-y-auto">
                             <div class="container mx-auto lg:px-32 rounded-lg overflow-y-auto">
@@ -118,7 +118,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- end modal -->
+                        </div> <!-- end modal video trailer -->
                     </template>
                     
 
@@ -126,19 +126,48 @@
             </div>
         </div> <!-- end game details -->
 
-        <div class="images-container border-b border-gray-800 pb-12 mt-8">
+        <div x-data="{isImageModalVisible: false, image: ''}" class="images-container border-b border-gray-800 pb-12 mt-8">
             <h2 class="text-blue-500 uppercase tracking-wide font-semibold">
                 Images
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-8">
                 @foreach ($game['screenshots'] as $screenshot)
                     <div>
-                        <a href="{{ $screenshot['huge'] }}">
+                        <a 
+                            href="#"
+                            @click.prevent="
+                                isImageModalVisible = true
+                                image = '{{ $screenshot['huge'] }}'
+                            "
+                        >
                             <img src="{{ $screenshot['big'] }}" alt="screenshot" class="hover:opacity-75 transition ease-in-out duration-150">
                         </a>
                     </div>
                 @endforeach                               
             </div>
+            
+            {{-- Screenshots modal --}}
+            <template x-if="isImageModalVisible">
+                <div class="fixed z-10 bg-black bg-opacity-50 top-0 left-0 w-full h-full flex items-center shadow-lg overflow-y-auto">
+                    <div class="container mx-auto lg:px-32 rounded-lg overflow-y-auto">
+                        <div class="bg-gray-900 rounded" @click.away="isImageModalVisible = false">
+                            <div class="flex justify-end pr-4 pt-2">
+                                <button 
+                                    class="text-3xl leading-none hover:text-gray-300" 
+                                    @click="isImageModalVisible = false"
+                                    @keydown.escape.window="isImageModalVisible = false"
+                                >
+                                    &times;
+                                </button>
+                            </div>
+                
+                            <div class="modal-body px-8 py-8">
+                                <img :src="image" alt="screenshot">
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end modal screenshots -->
+            </template>
         </div> <!-- end image container -->
 
         <div class="similar-games-container mt-8">
